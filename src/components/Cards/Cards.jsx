@@ -12,135 +12,109 @@ import {
   CardList,
 } from './Card.styled';
 import { fetchUsers, putUsers } from '../../Helpers/fetch';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { LoadMore } from '../LoadMore/LoadMore';
-
+import MainImage from '/src/Images/picture2 1.png';
+import LogoImg from '/src/Images/Logo.png';
 export const Card = () => {
   const [users, setUsers] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-  const button = useRef(null);
 
   useEffect(() => {
     fetchUsers().then(respond => {
-      setUsers([...respond]);
-      console.log(`user in fetch`);
+      setUsers(respond);
     });
   }, [setUsers]);
 
-  useEffect(() => {
-    console.log('users in useEffect');
-    users.forEach(user => {
-      if (user.isFollowing) {
-        user.followers += 1;
-      }
-      if (user.isFollowing) {
-        user.followers += 1;
-      }
-    });
-  }, [users]);
+  const onClickFollow = id => {
+    const user = users.find(user => user.id === id);
 
-  const onClickFollow = (id, e) => {
-    // const button = e.currentTarget;
+    if (!user) {
+      console.error('no user');
+      return;
+    }
+    let followers = user.followers;
+    let isFollowing = user.isFollowing;
+    if (isFollowing) {
+      followers -= 1;
+      isFollowing = false;
+    } else if (!isFollowing) {
+      followers += 1;
+      isFollowing = true;
+    }
 
-    setUsers(prevState => {
-      prevState
-        .filter(user => user.id === id)
-        .map(user => {
-          console.log(user.isFollowing);
-          if (user.isFollowing) {
-            // button.textContent = 'Following';
-            // button.style.backgroundColor = '#5cd3a8';
-
-            // user.followers += 1;
-            user.isFollowing = false;
-          } else if (!user.isFollowing) {
-            // button.textContent = 'Follow';
-            // button.style.backgroundColor = '#ebd8ff';
-            // user.followers -= 1;
-            user.isFollowing = true;
-          }
-          putUsers(id, user);
-          return user;
-        });
-
-      return [...prevState];
-    });
+    putUsers(id, { ...user, isFollowing, followers })
+      .then(res => {
+        return fetchUsers();
+      })
+      .then(users => {
+        setUsers(users);
+      });
   };
 
-  const onClickLoadMore = e => {
+  const onClickLoadMore = () => {
     setShowUsers(prevState => !prevState);
   };
   return (
     <>
       <CardList>
-        {users.map(user => {
-          console.log(`user in map`);
-          const { tweets, avatar, id } = user;
-          const followers = user.followers.toLocaleString('en-US');
+        {showUsers
+          ? users.map(user => {
+              const { tweets, avatar, id, isFollowing } = user;
+              const followers = user.followers.toLocaleString('en-US');
 
-          return (
-            <CardItem key={id}>
-              <Logo src="/src/Images/Logo.png" alt="logo"></Logo>
-              <MainImg src="/src/Images/picture2 1.png" alt="picture" />
-              <RightLane></RightLane>
-              <Circle>
-                <Avatar src={avatar.url} alt="Avatar" />
-              </Circle>
-              <LeftLine></LeftLine>
-              <TextTweets>{tweets} Tweets</TextTweets>
-              <TextFollowers>{followers} Followers</TextFollowers>
-              <Button
-                onClick={e => onClickFollow(id, e)}
-                ref={button}
-                users={users}
-              >
-                Follow
-              </Button>
-            </CardItem>
-          );
-        })}
+              return (
+                <CardItem key={id}>
+                  <Logo src={LogoImg} alt="logo"></Logo>
+                  <MainImg src={MainImage} alt="picture" />
+                  <RightLane></RightLane>
+                  <Circle>
+                    <Avatar src={avatar.url} alt="Avatar" />
+                  </Circle>
+                  <LeftLine></LeftLine>
+                  <TextTweets>{tweets} Tweets</TextTweets>
+                  <TextFollowers>{followers} Followers</TextFollowers>
+                  <Button
+                    style={{
+                      backgroundColor: isFollowing ? '#5CD3A8' : '#ebd8ff',
+                    }}
+                    onClick={e => onClickFollow(id)}
+                    users={users}
+                  >
+                    {isFollowing ? 'Following' : 'Follow'}
+                  </Button>
+                </CardItem>
+              );
+            })
+          : users.slice(0, 3).map(user => {
+              const { tweets, avatar, id, isFollowing } = user;
+              const followers = user.followers.toLocaleString('en-US');
+
+              return (
+                <CardItem key={id}>
+                  <Logo src={LogoImg} alt="logo"></Logo>
+                  <MainImg src={MainImage} alt="picture" />
+                  <RightLane></RightLane>
+                  <Circle>
+                    <Avatar src={avatar.url} alt="Avatar" />
+                  </Circle>
+                  <LeftLine></LeftLine>
+                  <TextTweets>{tweets} Tweets</TextTweets>
+                  <TextFollowers>{followers} Followers</TextFollowers>
+                  <Button
+                    style={{
+                      backgroundColor: isFollowing ? '#5CD3A8' : '#ebd8ff',
+                    }}
+                    onClick={e => onClickFollow(id)}
+                    users={users}
+                  >
+                    {isFollowing ? 'Following' : 'Follow'}
+                  </Button>
+                </CardItem>
+              );
+            })}
       </CardList>
       <LoadMore load={onClickLoadMore} isLoaded={showUsers} />
     </>
   );
 };
-
-/* <CardList>
-{showUsers
-  ? users.map(user => {
-      const { tweets, avatar, id } = user;
-      const followers = user.followers.toLocaleString('en-US');
-      return (
-        <CardItem key={id}>
-          <Logo src="/src/Images/Logo.png" alt="logo"></Logo>
-          <MainImg src="/src/Images/picture2 1.png" alt="picture" />
-          <RightLane></RightLane>
-          <Circle>
-            <Avatar src={avatar.url} alt="Avatar" />
-          </Circle>
-          <LeftLine></LeftLine>
-          <TextTweets>{tweets} Tweets</TextTweets>
-          <TextFollowers>{followers} Followers</TextFollowers>
-          <Button onClick={e => onClickFollow(id, e)}>Follow</Button>
-        </CardItem>
-      );
-    })
-  : users.slice(0, 3).map(user => {
-      const { tweets, avatar, id } = user;
-      const followers = user.followers.toLocaleString('en-US');
-      return (
-        <CardItem key={id}>
-          <Logo src="/src/Images/Logo.png" alt="logo"></Logo>
-          <MainImg src="/src/Images/picture2 1.png" alt="picture" />
-          <RightLane></RightLane>
-          <Circle>
-            <Avatar src={avatar.url} alt="Avatar" />
-          </Circle>
-          <LeftLine></LeftLine>
-          <TextTweets>{tweets} Tweets</TextTweets>
-          <TextFollowers>{followers} Followers</TextFollowers>
-          <Button onClick={e => onClickFollow(id, e)}>Follow</Button>
-        </CardItem>
-      );
-    })}
-</CardList> */

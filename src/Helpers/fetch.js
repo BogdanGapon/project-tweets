@@ -8,10 +8,7 @@ export const fetchUsers = async () => {
 };
 
 export const putUsers = (id, newData) => {
-  axios
-    .put(`users/${id}`, newData)
-    .then(response => {})
-    .catch(error => {
-      console.error('Error updating array:', error);
-    });
+  return axios.put(`users/${id}`, newData).catch(error => {
+    console.error('Error updating array:', error);
+  });
 };

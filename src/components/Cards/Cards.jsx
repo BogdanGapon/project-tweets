@@ -19,11 +19,16 @@ import LogoImg from '/src/Images/Logo.png';
 export const Card = () => {
   const [users, setUsers] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
-
+  const [showButton, setShowButton] = useState(false);
   useEffect(() => {
-    fetchUsers().then(respond => {
-      setUsers(respond);
-    });
+    setShowButton(false);
+    fetchUsers()
+      .then(respond => {
+        setUsers(respond);
+      })
+      .finally(() => {
+        setShowButton(true);
+      });
   }, [setUsers]);
 
   const onClickFollow = id => {
@@ -114,7 +119,11 @@ export const Card = () => {
               );
             })}
       </CardList>
-      <LoadMore load={onClickLoadMore} isLoaded={showUsers} />
+      {showButton ? (
+        <LoadMore load={onClickLoadMore} isLoaded={showUsers} />
+      ) : (
+        <div>Loading content, please wait</div>
+      )}
     </>
   );
 };

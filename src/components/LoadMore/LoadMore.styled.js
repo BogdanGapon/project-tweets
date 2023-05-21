@@ -17,7 +17,7 @@ const LoadMoreButton = styled.button`
   border-radius: 10.3108px;
   border: none;
   cursor: pointer;
-
+  transition: background-color 250ms cubic-bezier(0.075, 0.82, 0.165, 1);
   &:hover {
     background-color: rgba(235, 216, 255, 0.8);
   }

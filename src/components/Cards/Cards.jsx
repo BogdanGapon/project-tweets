@@ -10,13 +10,13 @@ import {
   Button,
   Avatar,
   CardList,
-} from './Card.styled';
+} from './Cards.styled';
 import { fetchUsers, putUsers } from '../../Helpers/fetch';
 import { useEffect, useState } from 'react';
 import { LoadMore } from '../LoadMore/LoadMore';
 import MainImage from '/src/Images/picture2 1.png';
 import LogoImg from '/src/Images/Logo.png';
-export const Card = () => {
+export const Cards = () => {
   const [users, setUsers] = useState([]);
   const [showUsers, setShowUsers] = useState(false);
   const [showButton, setShowButton] = useState(false);
@@ -108,7 +108,7 @@ export const Card = () => {
                   <TextFollowers>{followers} Followers</TextFollowers>
                   <Button
                     style={{
-                      backgroundColor: isFollowing ? '#5CD3A8' : '#ebd8ff',
+                      backgroundColor: isFollowing ? '#5cd3a8' : '#ebd8ff',
                     }}
                     onClick={e => onClickFollow(id)}
                     users={users}

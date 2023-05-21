@@ -225,4 +225,4 @@ Error generating stack: `+i.message+`
       color: #1be99f;
     }
   }
-`,E1=()=>O.jsxs(O.Fragment,{children:[O.jsx("header",{children:O.jsxs(x1,{children:[O.jsx(bc,{to:"/",children:"Home"}),O.jsx(bc,{to:"/tweets",state:{from:"/"},children:"Tweets"})]})}),O.jsx("div",{children:O.jsxs(Ny,{children:[O.jsx(Uo,{path:"/",element:O.jsx(Nc,{})}),O.jsx(Uo,{path:"/tweets",element:O.jsx(S1,{})}),O.jsx(Uo,{path:"*",element:O.jsx(Nc,{})})]})})]});Fl.createRoot(document.getElementById("root")).render(O.jsx($e.StrictMode,{children:O.jsx(zy,{children:O.jsx(E1,{})})}));
+`,E1=()=>O.jsxs(O.Fragment,{children:[O.jsx("header",{children:O.jsxs(x1,{children:[O.jsx(bc,{to:"/",children:"Home"}),O.jsx(bc,{to:"/tweets",state:{from:"/"},children:"Tweets"})]})}),O.jsx("div",{children:O.jsxs(Ny,{children:[O.jsx(Uo,{path:"/",element:O.jsx(Nc,{})}),O.jsx(Uo,{path:"/tweets",element:O.jsx(S1,{})}),O.jsx(Uo,{path:"*",element:O.jsx(Nc,{})})]})})]});Fl.createRoot(document.getElementById("root")).render(O.jsx($e.StrictMode,{children:O.jsx(zy,{basename:"/project-tweets",children:O.jsx(E1,{})})}));

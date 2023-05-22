@@ -18,4 +18,8 @@ const StyledLink = styled(Link)`
 const Arrow = styled(HiArrowLongLeft)`
   margin-right: 4px;
 `;
-export { StyledLink, Arrow };
+
+const Section = styled.section`
+  margin-right: 10px;
+`;
+export { StyledLink, Arrow, Section };
